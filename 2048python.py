@@ -32,18 +32,25 @@ def check_move(a,move):
 
 
 def shift(a):
-    temp=[0]*len(a)
-    for i in a:
-        if(i!=0):
-            temp.append(i)
-    a=temp
 
-def make_order(board):
-    for i in board:
-        shift(i)
+    k=0
+    temp=[i for i in a]
+
+    a=[0]*len(temp)
+    for i in temp:
+        if(i!=0):
+            a[k]=i
+            k=k+1
+    return a
+
 
 
 def merge(board):
+
+    for i in board:
+        k = shift(i)
+        for x in range(0, len(k)):
+            i[x] = k[x]
 
     for i in board:
         for k in range(len(i)-1):
@@ -51,7 +58,10 @@ def merge(board):
                 i[k]=i[k]+i[k+1]
                 i[k+1]=0
                 k=k+1
-    make_order(board)
+    for i in board:
+        k = shift(i)
+        for x in range(0, len(k)):
+            i[x] = k[x]
     pass
 
 
@@ -65,8 +75,10 @@ def print_board(board):
 
 
 
+#main code
 
 
+print("Enter your name :")
 name=input()
 print("Enter the board size (4,5,6) : ")
 size=int(input())
@@ -76,10 +88,21 @@ for i in range(size):
     board.append([0]*size)
 
 
+val=rand[random.randint(0,len(rand)-1)]
+pos1=random.randint(0,len(board)-1)
+pos2=random.randint(0,len(board)-1)
+
+if(board[pos1][pos2]==0):
+    board[pos1][pos2]=val
+
+print_board(board)
+
+
 
 
 x=prove_no_possible_merges(board)
 while(x):
+
     if(x==2):
         break
 
