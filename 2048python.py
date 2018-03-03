@@ -1,6 +1,8 @@
 import random
 import os
 
+
+
 #To check wheather game is over or won .
 
 def prove_no_possible_merges(a):
@@ -19,7 +21,7 @@ def prove_no_possible_merges(a):
     return 0
 
 
-#moves
+#check moves
 
 def check_move(a,move):
     if(move=='a' or move=='A' or move=='w' or move=='W' or move=='s' or move=='S' or move=='d' or move=='D'):
@@ -30,7 +32,7 @@ def check_move(a,move):
         check_move(a,move)
     pass
 
-
+#shift all elements to a side
 def shift(a):
 
     k=0
@@ -44,8 +46,8 @@ def shift(a):
     return a
 
 
-
-def merge(board):
+#merge the elements if equal
+def merge(board , score):
 
     for i in board:
         k = shift(i)
@@ -57,11 +59,14 @@ def merge(board):
             if(i[k]==i[k+1]):
                 i[k]=i[k]+i[k+1]
                 i[k+1]=0
+                score += i[k]
+
                 k=k+1
     for i in board:
         k = shift(i)
         for x in range(0, len(k)):
             i[x] = k[x]
+
     pass
 
 
@@ -69,15 +74,15 @@ def merge(board):
 def print_board(board):
     for i in board:
         for k in i:
-            print(k,end=' ')
-        print('')
+            print(k,end='     ')
+        print('\n')
 
 
 
 
 #main code
 
-
+score = 0 #initialise score to zero
 print("Enter your name :")
 name=input()
 print("Enter the board size (4,5,6) : ")
@@ -115,20 +120,21 @@ while(x):
     else:
         continue
 
-    print("Enter your move (w for up , d for right , a for left , s for down ) :")
+    print("Enter your move (w for up , d for right , a for left , s for down  quit for quit ) :")
     move=input()
-
+    if(move == 'quit'):
+        break
     check_move(board,move)
 
     if(move== 'a' or move == 'A'):
-        merge(board)
+        merge(board,score)
 
 
     if (move == 'd' or move == 'D'):
         for i in board:
             i.reverse()
 
-        merge(board)
+        merge(board,score)
 
         for i in board:
             i.reverse()
@@ -139,7 +145,7 @@ while(x):
         for i in board:
             i.reverse()
 
-        merge(board)
+        merge(board,score)
 
         for i in board:
             i.reverse()
@@ -152,7 +158,7 @@ while(x):
 
         board = [[board[j][i] for j in range(len(board))] for i in range(len(board[0]))]
 
-        merge(board)
+        merge(board,score)
 
         board = [[board[j][i] for j in range(len(board))] for i in range(len(board[0]))]
 
@@ -165,9 +171,11 @@ while(x):
     x=prove_no_possible_merges(board)
 
 if(x==2):
-    print("You won")
+    print("congratulations ",name," You won   ")
+
 else :
-    print("You lost")
+    print("Game quited Name :",name)
+    print("score is :",score)
 
 
 
